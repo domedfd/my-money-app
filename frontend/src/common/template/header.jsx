@@ -7,7 +7,7 @@ export default props => (
         <b>DG</b>
       </span>
       <span className="logo-lg">
-        <i className="fa fa-money"></i>
+        <i className="fa fa-gittip"></i>
         <b> Dom</b>group
       </span>
     </a>
