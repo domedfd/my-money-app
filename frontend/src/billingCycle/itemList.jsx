@@ -5,11 +5,11 @@ import { Field, arrayInsert, arrayRemove } from "redux-form";
 import Grid from "../common/layout/gird";
 import Input from "../common/form/input";
 
-class CreditList extends Component {
+class ItemList extends Component {
   add(index, item = {}) {
     if (!this.props.readOnly) {
       console.log(index);
-      this.props.arrayInsert("billingCycleForm", "credits", index, item);
+      this.props.arrayInsert("billingCycleForm", this.props.field, index, item);
     }
   }
 
@@ -18,7 +18,7 @@ class CreditList extends Component {
 
     if (!this.props.readOnly && this.props.list.length > 1) {
       console.log("Eliminou o index: " + index);
-      this.props.arrayRemove("billingCycleForm", "credits", index);
+      this.props.arrayRemove("billingCycleForm", this.props.field, index);
     }
   }
 
@@ -28,7 +28,7 @@ class CreditList extends Component {
       <tr key={index}>
         <td>
           <Field
-            name={`credits[${index}].name`}
+            name={`${this.props.field}[${index}].name`}
             component={Input}
             placeholder="Informe el nombre"
             readOnly={this.props.readOnly}
@@ -36,7 +36,7 @@ class CreditList extends Component {
         </td>
         <td>
           <Field
-            name={`credits[${index}].value`}
+            name={`${this.props.field}[${index}].value`}
             component={Input}
             placeholder="Informe el valor"
             readOnly={this.props.readOnly}
@@ -73,7 +73,7 @@ class CreditList extends Component {
     return (
       <Grid cols={this.props.cols}>
         <fieldset>
-          <legend>Creditos</legend>
+          <legend>{this.props.legend}</legend>
           <table className="table">
             <thead>
               <tr>
@@ -95,4 +95,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   null,
   mapDispatchToProps
-)(CreditList);
+)(ItemList);
