@@ -5,12 +5,14 @@ import { reducer as toastrReducer } from "react-redux-toastr";
 import DashboardReducer from "../dashboard/dashboardReducer";
 import TabReducer from "../common/tab/tabReducer";
 import BillingCycleReducer from "../billingCycle/billingCycleReducer";
+import AuthReducer from "../src/auth/AuthReducer";
 
 const rootReducer = combineReducers({
   dashboard: DashboardReducer, //() => ({ summary: { credit: 100, debt: 50 } })
   tab: TabReducer,
   billingCycle: BillingCycleReducer,
   form: formReducer,
-  toastr: toastrReducer
+  toastr: toastrReducer,
+  auth: AuthReducer
 });
 export default rootReducer;
