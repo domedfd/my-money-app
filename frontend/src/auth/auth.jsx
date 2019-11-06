@@ -8,7 +8,7 @@ import { bindActionCreators } from "redux";
 
 import { login, signup } from "./authActions";
 import Row from "../common/layout/row";
-import Grid from "../common/layout/grid";
+import Grid from "../common/layout/gird";
 import If from "../common/operador/if";
 import Messages from "../common/msg/messages";
 import Input from "../common/form/inputAuth";
