@@ -31,8 +31,52 @@ const login =  (req, res, next) =>{
 
 const validateToken= (req, res, next)=> {
     const token = req.body.token ||""
-    
+
     jwt.verify(token, env.authSecret, function (err, decoded){
         return res.status(200).send({valid: !err})
     })
 }
+
+const signup = (req, res, next) =>{
+    const name = req.body.name || ""
+    const email = req.body.email || ""
+    const password = req.body.password || ""
+    const confirmPassword = req.body.confirmPassword || ""
+
+    if (!email.match(emailRegex)){
+        return res.status(400).send({errors: ['El email informado es invalido']})
+    }
+
+    if (!password.match(passwordRegex)){
+        return res.status(400).send({
+            errors: [
+                "La contrasena necesita tener al menos: una letra mayuscula, una letra minuscula, un numero y un caracter y el tamano entre 6-20"
+            ]
+        })
+    }
+    
+    const salt = bcrypt.genSaltSync()
+    const passwordHash = bcrypt.hashSync(password,salt)
+    if (!bcrypt.compareSync(confirmPassword, passwordHash)){
+        return res.status(400).send({errors: ['Contrasenas diferentes']})
+    }
+
+    User.findOne({email}, (err, user) =>{
+        if(err){
+            return sendErrorsFromDB(res, err)
+        } else if (user) {
+            return res.status(400).send({errors: ['Usuario existente']})
+        } else {
+            const newUser = new User({name, email, password: passwordHash})
+            newUser.save(err=>{
+                if(err){
+                    return sendErrorsFromDB(res, err)
+                } else {
+                    login(req, res, next)
+                }
+            })
+        }
+    })
+}
+
+module.exports = { login, signup, validateToken}
